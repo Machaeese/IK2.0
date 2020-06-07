@@ -166,8 +166,8 @@
 			children = (
 				8AEA49E7247C8BAB009118D0 /* cell */,
 				8A0755D22464A5B500EC96C3 /* LoginController.swift */,
-				8AC4E6DD245B8AE800A1E91E /* ForgetPasswordViewController.swift */,
 				8AC4E6D72459611F00A1E91E /* RegisterViewController.swift */,
+				8AC4E6DD245B8AE800A1E91E /* ForgetPasswordViewController.swift */,
 				8A0755D02464A05400EC96C3 /* WelcomeController.swift */,
 				8A4F33F9247B3C7900F9826D /* ByIngredientController.swift */,
 				8A4F33ED247B26CE00F9826D /* ByNameController.swift */,
