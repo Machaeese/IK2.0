@@ -2825,7 +2825,6 @@ Name</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oAT-Ct-mTq"/>
         <segue reference="RsX-XU-FdV"/>
         <segue reference="xDq-tg-AmH"/>
         <segue reference="5wx-Ok-YXk"/>
