@@ -110,9 +110,10 @@ class RegisterViewController: UIViewController {
         }
         let defaultImageString = "profileTapped"
         guard let myUIImage = UIImage(named: defaultImageString) else { return }
-        self.uploadProfileImage(myUIImage){(url) in
-            
-        }
+        self.uploadProfileImage(myUIImage){(url) in}
+        
+        
+
     }
     
     func uploadProfileImage(_ image:UIImage, completion: @escaping ((_ url:URL?)->())){
@@ -134,6 +135,8 @@ class RegisterViewController: UIViewController {
             //success
         }
     }
+    
+   
     
     func transitionHome() {
         let welcomeController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeController) as? WelcomeController
