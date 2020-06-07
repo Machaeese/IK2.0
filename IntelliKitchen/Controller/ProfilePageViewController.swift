@@ -47,9 +47,9 @@ class ProfilePageViewController: UIViewController, UINavigationControllerDelegat
     func loadUserInfo(){
         let db = Firestore.firestore()
         
-        let tempGoogleUsername = LoginController.GlobalVariable.googleUsername
-        let tempGoogleEmail = LoginController.GlobalVariable.googleEmail
-        let tempGoogleIconUrl = LoginController.GlobalVariable.googleIconUrl
+        let tempGoogleUsername = GlobalVariable.googleUsername
+        let tempGoogleEmail = GlobalVariable.googleEmail
+        let tempGoogleIconUrl = GlobalVariable.googleIconUrl
         
         //handle google log in
         if tempGoogleUsername != "" && tempGoogleEmail != ""{
@@ -169,8 +169,8 @@ class ProfilePageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @IBAction func showOrHidePassword(_ sender: Any) {
-        let tempGoogleUsername = LoginController.GlobalVariable.googleUsername
-        let tempGoogleEmail = LoginController.GlobalVariable.googleEmail
+        let tempGoogleUsername = GlobalVariable.googleUsername
+        let tempGoogleEmail = GlobalVariable.googleEmail
         
         if tempGoogleUsername != "" && tempGoogleEmail != ""{
             self.createAlert(title: "Notice", message: "You may not change your password by signing in with Google")
@@ -205,8 +205,8 @@ class ProfilePageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @IBAction func importImage(_ sender: Any) {
-        let tempGoogleUsername = LoginController.GlobalVariable.googleUsername
-        let tempGoogleEmail = LoginController.GlobalVariable.googleEmail
+        let tempGoogleUsername = GlobalVariable.googleUsername
+        let tempGoogleEmail = GlobalVariable.googleEmail
         
         if tempGoogleUsername != "" && tempGoogleEmail != ""{
             self.createAlert(title: "Notice", message: "You may not change your profile photo by signing in with Google")
@@ -272,8 +272,8 @@ class ProfilePageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @IBAction func saveUsernameAction(_ sender: Any) {
-        let tempGoogleUsername = LoginController.GlobalVariable.googleUsername
-        let tempGoogleEmail = LoginController.GlobalVariable.googleEmail
+        let tempGoogleUsername = GlobalVariable.googleUsername
+        let tempGoogleEmail = GlobalVariable.googleEmail
         
         if tempGoogleUsername != "" && tempGoogleEmail != ""{
             self.createAlert(title: "Notice", message: "You may not change your username by signing in with Google")
@@ -331,37 +331,10 @@ class ProfilePageViewController: UIViewController, UINavigationControllerDelegat
         view.window?.rootViewController = loginController
         view.window?.makeKeyAndVisible()
         
-        LoginController.GlobalVariable.googleUsername = ""
-        LoginController.GlobalVariable.googleEmail = ""
-        LoginController.GlobalVariable.googleIconUrl = URL(string: "")
+        GlobalVariable.googleUsername = ""
+        GlobalVariable.googleEmail = ""
+        
+        GlobalVariable.googleIconUrl = URL(string: "")
     }
 }
 
-extension ProfilePageViewController : UITextFieldDelegate{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-}
-
-extension ProfilePageViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoriteRecipes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let favoriteRecipe = favoriteRecipes[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteRecipeCell") as! FavoriteRecipeCell
-        
-        cell.setFavoriteRecipe(favoriteRecipe: favoriteRecipe)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let id = self.favoriteIDList[indexPath.row]
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "menudetail") as! ScrollViewController
-        secondVC.passid = id;
-        self.present(secondVC,animated:true,completion: nil)
-    }
-}

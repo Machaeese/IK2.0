@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 class AddChoresViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    // reference and global varaible
     @IBOutlet weak var taskField: UITextField!
     @IBOutlet weak var choresList: UITableView!
     @IBOutlet weak var lastDoneField: UITextField!
@@ -157,19 +158,3 @@ class AddChoresViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
 }
 
-extension AddChoresViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chores.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = choresList.dequeueReusableCell(withIdentifier: "choresCell") as! AddChoresTableViewCell
-        cell.nameLabel.text = choreNames[indexPath.row]
-        cell.fLabel.text = frequencyChoice[indexPath.row]
-        cell.ldLabel.text = lastDoneDates[indexPath.row]
-        cell.nameLabel.adjustsFontSizeToFitWidth = true
-        cell.fLabel.adjustsFontSizeToFitWidth = true
-        cell.ldLabel.adjustsFontSizeToFitWidth = true
-        return cell
-    }
-}

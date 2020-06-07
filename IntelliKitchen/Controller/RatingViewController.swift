@@ -28,6 +28,47 @@ class RatingViewController: UIViewController {
     var numofpeople:Int = 0;
     var ratingsum:Int = 0;
     
+    
+    override func viewDidLoad() {
+         super.viewDidLoad()
+         smallerView.layer.cornerRadius=10
+         self.currentUid = Auth.auth().currentUser!.uid
+         var ratingdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/rating");
+         
+         view.addSubview(smallerView)
+         smallerView.addSubview(cosmosView)
+         cosmosView.centerInSuperview()
+         cosmosView.didTouchCosmos = {rating in
+             self.ratingarray.append(Int(rating))
+             
+         }
+         
+         //get ratingnumber
+         ratingdb.observeSingleEvent(of: .value) { (snapshot) in
+             var ratingtuple = snapshot.value as! [Int];
+             self.numofpeople = ratingtuple[1]
+             self.ratingsum = ratingtuple[0]
+         }
+         
+         //get ratedlist
+         db.collection("users").document(currentUid).getDocument { (document, error) in
+             if error == nil {
+                 if document != nil && document!.exists {
+                     let documentData = document?.data()
+                     self.ratedlist = documentData?["ratedlist"] as? [String] ?? []
+                     if self.ratedlist.contains(self.passid){
+                         self.ratedornot = true
+                     }
+                 } else {
+                     print("Can read the document but the document might not exists")
+                 }
+                 
+             } else {
+                 print("Something wrong reading the document")
+             }
+         }
+     }
+    
     @IBAction func clickCancel(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -62,43 +103,4 @@ class RatingViewController: UIViewController {
         return view
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        smallerView.layer.cornerRadius=10
-        self.currentUid = Auth.auth().currentUser!.uid
-        var ratingdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/rating");
-        
-        view.addSubview(smallerView)
-        smallerView.addSubview(cosmosView)
-        cosmosView.centerInSuperview()
-        cosmosView.didTouchCosmos = {rating in
-            self.ratingarray.append(Int(rating))
-            
-        }
-        
-        //get ratingnumber
-        ratingdb.observeSingleEvent(of: .value) { (snapshot) in
-            var ratingtuple = snapshot.value as! [Int];
-            self.numofpeople = ratingtuple[1]
-            self.ratingsum = ratingtuple[0]
-        }
-        
-        //get ratedlist
-        db.collection("users").document(currentUid).getDocument { (document, error) in
-            if error == nil {
-                if document != nil && document!.exists {
-                    let documentData = document?.data()
-                    self.ratedlist = documentData?["ratedlist"] as? [String] ?? []
-                    if self.ratedlist.contains(self.passid){
-                        self.ratedornot = true
-                    }
-                } else {
-                    print("Can read the document but the document might not exists")
-                }
-                
-            } else {
-                print("Something wrong reading the document")
-            }
-        }
-    }
 }

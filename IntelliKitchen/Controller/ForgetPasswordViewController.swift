@@ -11,6 +11,7 @@ import FirebaseAuth
 
 class ForgetPasswordViewController: UIViewController {
     
+    // reference and global variable
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var message: UITextField!
     

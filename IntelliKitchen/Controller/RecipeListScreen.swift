@@ -11,6 +11,7 @@ import Firebase
 
 class RecipeListScreen: UIViewController {
     
+    // reference and global varaible
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchText: UILabel!
     
@@ -174,31 +175,3 @@ class RecipeListScreen: UIViewController {
     
 }
 
-extension RecipeListScreen: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let recipe = recipes[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell") as! RecipeCell
-        cell.setRecipe(recipe: recipe)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if recipes.count == 0 {
-            return CGFloat(0.0)
-        } else {
-            return CGFloat(110.0)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let id = newrecipeid[indexPath.row]
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "menudetail") as! ScrollViewController
-        secondVC.passid = id;
-        self.present(secondVC,animated:true,completion: nil)
-    }
-}

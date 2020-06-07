@@ -36,4 +36,6 @@ class Utilities {
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", ".{6,}")
         return passwordTest.evaluate(with: password)
     }
+
+
 }

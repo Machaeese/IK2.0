@@ -16,17 +16,13 @@ import FirebaseDatabase
 
 class LoginController: UIViewController, GIDSignInDelegate{
     
+    // all the global varaible and reference
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var googleButton: GIDSignInButton!
     
-    struct GlobalVariable{
-        static var googleUsername = ""
-        static var googleEmail = ""
-        static var googleIconUrl:URL?
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

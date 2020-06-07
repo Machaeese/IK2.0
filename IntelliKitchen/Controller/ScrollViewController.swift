@@ -70,6 +70,129 @@ class ScrollViewController: UIViewController, UITextFieldDelegate {
     var infoPhoto:[String:Data] = [:]
     var tempname:[String] = []
 
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        Comments.delegate = self
+        stepsdisplay.sizeToFit();
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.touch))
+        recognizer.numberOfTapsRequired = 1
+        recognizer.numberOfTouchesRequired = 1
+        self.scrollview.addGestureRecognizer(recognizer)
+        
+        let rootRef = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/steps");
+        let titledb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/recipe_name");
+        let ingredientsdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/ingredients");
+        var imagedb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/img");
+        var imagedbnew = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/recipe_pic");
+        var ratingdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/rating");
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.currentUid = Auth.auth().currentUser!.uid
+        db.collection("users").document(currentUid).collection("favoriteRecipe").getDocuments { (snapshot, error) in
+            for document in snapshot!.documents{
+                let documentData = document.data()
+                self.favlist = documentData["favRecipe"] as? [String] ?? []
+                if self.favlist.contains(self.passid){
+                    self.favornot = true
+                }
+                if self.favornot{
+                    self.FavouriteButton.setImage(UIImage(named:"feather-heart"), for: .normal)
+                }
+                else{
+                    self.FavouriteButton.setImage(UIImage(named:"Ellipse 2"), for: .normal)
+                }
+            }
+        }
+        
+        //get rating
+        ratingdb.observeSingleEvent(of: .value) { (snapshot) in
+            var ratingtuple = snapshot.value as! [Int];
+            var avrating = Double(ratingtuple[0])/Double(ratingtuple[1])
+            self.ratinglabel.text = "Average Rating: " + String(format: "%.1f", avrating) + "     " + String(ratingtuple[1]) + " have rated"
+        }
+        
+        
+        //grab steps from db
+        rootRef.observe(.value, with: { snapshot in
+            self.mylist = snapshot.value as! [String];
+            let length = self.mylist.count;
+            
+            for i in 0...length-1{
+                self.wholelist = self.wholelist + String(i+1) + ". " + self.mylist[i]+"\n\n";
+            }
+            self.stepsdisplay.text = self.wholelist;
+            self.innerscroll.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.stepsdisplay.bottomAnchor).isActive = true
+            
+        })
+        
+        // grab menutitle
+        titledb.observeSingleEvent(of: .value) { (snapshot) in
+            self.menutitle.text = snapshot.value as! String;
+            self.menutitle.text = (self.menutitle.text)?.capitalized;
+        }
+        
+        // grab ingredients
+        ingredientsdb.observe(.value) { (snapshot) in
+            self.ingredientlist = snapshot.value as! [String];
+            self.ingredientlist = (self.ingredientlist).removingDuplicates();
+            let length2 = self.ingredientlist.count;
+            for j in 0...length2-1{
+                if (j%2 == 0) {
+                    self.leftstring = self.leftstring + (self.ingredientlist[j]).capitalized + "\n";
+                }
+                else{
+                    self.rightstring = self.rightstring + (self.ingredientlist[j]).capitalized + "\n";
+                }
+            }
+            self.lefthalf.text = self.leftstring;
+            self.righthalf.text = self.rightstring;
+            self.ingrescroll.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.lefthalf.bottomAnchor).isActive = true
+            
+        }
+        
+        // grab recipe photo
+        imagedb.observeSingleEvent(of: .value) { (snapshot) in
+            if(!(snapshot.value is NSNull)){
+                self.imageurl = URL(string: snapshot.value as! String);
+                self.menupic.load(url: self.imageurl);
+                self.menupic.layer.cornerRadius = 10;
+            }
+            else{
+                imagedbnew.observeSingleEvent(of: .value) { (snapshot) in
+                    if(snapshot.value != nil){
+                        self.imageurl = URL(string: snapshot.value as! String);
+                        self.menupic.load(url: self.imageurl);
+                        self.menupic.layer.cornerRadius = 10;
+                    }
+                }
+            }
+        }
+        
+        forloop();
+
+        db.collection("users").document(currentUid).getDocument { (document, error) in
+            if error == nil {
+                if document != nil && document!.exists {
+                    let documentData = document?.data()
+                    self.commentedlist = documentData?["commentedlist"] as? [String] ?? []
+                    if self.commentedlist.contains(self.passid){
+                        self.commentornot = true
+                    }
+                } else {
+                    print("Can read the document but the document might not exists")
+                }
+                
+            } else {
+                print("Something wrong reading the document")
+            }
+        }
+        
+    }
+    
     @IBAction func clickRating(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle:nil)
         let secondVC = storyboard.instantiateViewController(identifier: "Rating") as! RatingViewController
@@ -87,8 +210,9 @@ class ScrollViewController: UIViewController, UITextFieldDelegate {
             commentedlist.append(passid)
             db.collection("users").document(currentUid).updateData(["commentedlist" : self.commentedlist])
             self.commentornot = true
-            Comments.text = nil}
-        else {
+            Comments.text = nil
+//            Comments.resignFirstResponder()
+        } else {
             //Comments.isEnabled = false
             let alert = UIAlertController(title: "Already commented", message: "You have already commented this recipe~", preferredStyle: UIAlertController.Style.alert)
             Comments.text = nil
@@ -210,188 +334,20 @@ class ScrollViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        Comments.delegate = self
-        stepsdisplay.sizeToFit();
-        
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.touch))
-        recognizer.numberOfTapsRequired = 1
-        recognizer.numberOfTouchesRequired = 1
-        self.scrollview.addGestureRecognizer(recognizer)
-        
-        let rootRef = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/steps");
-        let titledb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/recipe_name");
-        let ingredientsdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/ingredients");
-        var imagedb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/img");
-        var imagedbnew = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/recipe_pic");
-        var ratingdb = Database.database().reference().child("Recipe/-M8IVR-st6dljGq6M4xN/"+passid+"/rating");
-        
-        self.currentUid = Auth.auth().currentUser!.uid
-        db.collection("users").document(currentUid).collection("favoriteRecipe").getDocuments { (snapshot, error) in
-            for document in snapshot!.documents{
-                let documentData = document.data()
-                self.favlist = documentData["favRecipe"] as? [String] ?? []
-                if self.favlist.contains(self.passid){
-                    self.favornot = true
-                }
-                if self.favornot{
-                    self.FavouriteButton.setImage(UIImage(named:"feather-heart"), for: .normal)
-                }
-                else{
-                    self.FavouriteButton.setImage(UIImage(named:"Ellipse 2"), for: .normal)
-                }
-            }
-        }
-        
-        //get rating
-        ratingdb.observeSingleEvent(of: .value) { (snapshot) in
-            var ratingtuple = snapshot.value as! [Int];
-            var avrating = Double(ratingtuple[0])/Double(ratingtuple[1])
-            self.ratinglabel.text = "Average Rating: " + String(format: "%.1f", avrating) + "     " + String(ratingtuple[1]) + " have rated"
-        }
-        
-        
-        
-        //grab steps from db
-        rootRef.observe(.value, with: { snapshot in
-            self.mylist = snapshot.value as! [String];
-            let length = self.mylist.count;
-            
-            for i in 0...length-1{
-                self.wholelist = self.wholelist + String(i+1) + ". " + self.mylist[i]+"\n\n";
-            }
-            self.stepsdisplay.text = self.wholelist;
-            self.innerscroll.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.stepsdisplay.bottomAnchor).isActive = true
-            
-        })
-        
-        // grab menutitle
-        titledb.observeSingleEvent(of: .value) { (snapshot) in
-            self.menutitle.text = snapshot.value as! String;
-            self.menutitle.text = (self.menutitle.text)?.capitalized;
-        }
-        
-        // grab ingredients
-        ingredientsdb.observe(.value) { (snapshot) in
-            self.ingredientlist = snapshot.value as! [String];
-            self.ingredientlist = (self.ingredientlist).removingDuplicates();
-            let length2 = self.ingredientlist.count;
-            for j in 0...length2-1{
-                if (j%2 == 0) {
-                    self.leftstring = self.leftstring + (self.ingredientlist[j]).capitalized + "\n";
-                }
-                else{
-                    self.rightstring = self.rightstring + (self.ingredientlist[j]).capitalized + "\n";
-                }
-            }
-            self.lefthalf.text = self.leftstring;
-            self.righthalf.text = self.rightstring;
-            self.ingrescroll.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.lefthalf.bottomAnchor).isActive = true
-            
-        }
-        
-        // grab recipe photo
-        imagedb.observeSingleEvent(of: .value) { (snapshot) in
-            if(!(snapshot.value is NSNull)){
-                self.imageurl = URL(string: snapshot.value as! String);
-                self.menupic.load(url: self.imageurl);
-                self.menupic.layer.cornerRadius = 10;
-            }
-            else{
-                imagedbnew.observeSingleEvent(of: .value) { (snapshot) in
-                    if(snapshot.value != nil){
-                        self.imageurl = URL(string: snapshot.value as! String);
-                        self.menupic.load(url: self.imageurl);
-                        self.menupic.layer.cornerRadius = 10;
-                    }
-                }
-            }
-        }
-        
-        forloop();
-        
-        //get comments from cloudfirestore
-        db.collection("users").document(currentUid).getDocument { (document, error) in
-            if error == nil {
-                if document != nil && document!.exists {
-                    let documentData = document?.data()
-                    self.commentedlist = documentData?["commentedlist"] as? [String] ?? []
-                    if self.commentedlist.contains(self.passid){
-                        self.commentornot = true
-                    }
-                } else {
-                    print("Can read the document but the document might not exists")
-                }
-                
-            } else {
-                print("Something wrong reading the document")
-            }
-        }
-        
-    }
-}
-
-
-extension ScrollViewController {
-    @objc func touch() {
-        self.Comments.endEditing(true)
-    }
-}
-
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-extension ScrollViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentcelllist.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let eachcomment = commentcelllist[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell") as! CommentCell
-        
-        cell.setComments(comment: eachcomment)
-        return cell
-    }
-}
-
-
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-    
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
-}
-
-extension Array where Element: Hashable {
-    func removingDuplicates() -> [Element] {
-        var addedDict = [Element: Bool]()
-        
-        return filter {
-            addedDict.updateValue(true, forKey: $0) == nil
+    @objc func keyboardWillChange(notification: Notification) {
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 300
+        } else {
+            self.view.frame.origin.y = 0
         }
     }
     
-    mutating func removeDuplicates() {
-        self = self.removingDuplicates()
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
+
 }
+
+

@@ -13,11 +13,10 @@ import FirebaseAuth
 
 class RecipeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    // reference and global variable
     @IBOutlet weak var collectionView: UICollectionView!
-    
     var ref : DatabaseReference?
     var databaseHandle : DatabaseHandle?
-    
     var RecipeName = [String]()
     var RecipeImage = [UIImage]()
     var expire = [Date]()

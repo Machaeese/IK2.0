@@ -11,6 +11,7 @@ import Firebase
 
 class ByNameController: UIViewController {
     
+    // reference and global varaible
     @IBOutlet weak var nameSearchBar: UISearchBar!
     @IBOutlet weak var nameTableView: UITableView!
     @IBOutlet weak var searchButton: UIButton!
@@ -75,67 +76,3 @@ class ByNameController: UIViewController {
     }
 }
 
-extension ByNameController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searching {
-            return searchRecipe.count
-        } else {
-            return recipeNameArray.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        if searching {
-            cell?.textLabel?.text = searchRecipe[indexPath.row]
-        } else {
-            cell?.textLabel?.text = recipeNameArray[indexPath.row]
-        }
-        cell?.backgroundColor = lightGreen
-        cell?.textLabel?.textColor = .white
-        cell?.tintColor = .white
-        return cell!
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let index = indexPath.row
-        if searching {
-            nameSearchBar.text = searchRecipe[index]
-        } else {
-            nameSearchBar.text = recipeNameArray[index]
-        }
-        nameTableView.reloadData()
-    }
-}
-
-extension ByNameController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if searching {
-            searchArray = searchRecipe
-            searchArray.insert(nameSearchBar.text!, at: 0)
-        } else {
-            searchArray = []
-            searchArray.append(nameSearchBar.text!)
-            searchArray.append(nameSearchBar.text!)
-        }
-        performSegue(withIdentifier: "searchResult", sender: self)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if (searchText == "") {
-            searching = false
-            nameTableView.reloadData()
-            return
-        }
-        searchRecipe = recipeNameArray.filter({$0.localizedCaseInsensitiveContains(searchText)})
-        searching = true
-        nameTableView.reloadData()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.nameSearchBar?.resignFirstResponder()
-        self.nameTableView?.resignFirstResponder()
-    }
-}
