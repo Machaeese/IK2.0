@@ -10,8 +10,6 @@ import UIKit
 
 class WelcomeController: UIViewController {
     
-    @IBOutlet weak var getStartedButton: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

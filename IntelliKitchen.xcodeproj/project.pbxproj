@@ -144,7 +144,6 @@
 				8AC4E6C32459600400A1E91E /* SceneDelegate.swift */,
 				8AC4E6CA2459600600A1E91E /* Assets.xcassets */,
 				AEC873742480841900BA17CE /* GoogleService-Info.plist */,
-				8AC4E6CC2459600600A1E91E /* LaunchScreen.storyboard */,
 				8AC4E6CF2459600600A1E91E /* Info.plist */,
 			);
 			path = IntelliKitchen;
@@ -155,8 +154,8 @@
 			children = (
 				8A4F33DD247B1F6200F9826D /* RecipeListScreen.swift */,
 				8A0755D22464A5B500EC96C3 /* LoginController.swift */,
-				8AC4E6DD245B8AE800A1E91E /* ForgetPasswordViewController.swift */,
 				8AC4E6D72459611F00A1E91E /* RegisterViewController.swift */,
+				8AC4E6DD245B8AE800A1E91E /* ForgetPasswordViewController.swift */,
 				8A0755D02464A05400EC96C3 /* WelcomeController.swift */,
 				8A4F33F9247B3C7900F9826D /* ByIngredientController.swift */,
 				8A4F33ED247B26CE00F9826D /* ByNameController.swift */,
@@ -198,6 +197,7 @@
 		9C1D0AA2248B737100FB428C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8AC4E6CC2459600600A1E91E /* LaunchScreen.storyboard */,
 				8AC4E6C72459600400A1E91E /* Main.storyboard */,
 				8AEA49DB247C8090009118D0 /* CustomTableViewCell.swift */,
 				8AEF2E5F247932440041EAFA /* CollectionViewCell.swift */,
