@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct GlobalVariable{
+struct GoogleUser{
        static var googleUsername = ""
        static var googleEmail = ""
        static var googleIconUrl:URL?

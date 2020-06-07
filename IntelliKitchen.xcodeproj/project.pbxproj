@@ -38,7 +38,7 @@
 		8AEF2E5E2479322D0041EAFA /* ChoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEF2E5D2479322D0041EAFA /* ChoresViewController.swift */; };
 		8AEF2E60247932440041EAFA /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEF2E5F247932440041EAFA /* CollectionViewCell.swift */; };
 		8AEF2E64247932560041EAFA /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEF2E63247932560041EAFA /* Extentions.swift */; };
-		9C1D0AA4248C74A600FB428C /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1D0AA3248C74A600FB428C /* GlobalVariable.swift */; };
+		9C1D0AA4248C74A600FB428C /* GoogleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1D0AA3248C74A600FB428C /* GoogleUser.swift */; };
 		AEC873752480841900BA17CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEC873742480841900BA17CE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -77,7 +77,7 @@
 		8AEF2E5F247932440041EAFA /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		8AEF2E63247932560041EAFA /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		9032C812FC9EA2A76E68084A /* Pods-UserLoginAndRegister.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserLoginAndRegister.release.xcconfig"; path = "Target Support Files/Pods-UserLoginAndRegister/Pods-UserLoginAndRegister.release.xcconfig"; sourceTree = "<group>"; };
-		9C1D0AA3248C74A600FB428C /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
+		9C1D0AA3248C74A600FB428C /* GoogleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleUser.swift; sourceTree = "<group>"; };
 		9C4CF6BA0FE49E2BD21B0D0C /* Pods-IntelliKitchen.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntelliKitchen.release.xcconfig"; path = "Target Support Files/Pods-IntelliKitchen/Pods-IntelliKitchen.release.xcconfig"; sourceTree = "<group>"; };
 		AEC873742480841900BA17CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CB25438B6F74569006957CFC /* Pods-IntelliKitchen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntelliKitchen.debug.xcconfig"; path = "Target Support Files/Pods-IntelliKitchen/Pods-IntelliKitchen.debug.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +153,7 @@
 		8AC4E6D92459612C00A1E91E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8A4F33DD247B1F6200F9826D /* RecipeListScreen.swift */,
 				8A0755D22464A5B500EC96C3 /* LoginController.swift */,
 				8AC4E6DD245B8AE800A1E91E /* ForgetPasswordViewController.swift */,
 				8AC4E6D72459611F00A1E91E /* RegisterViewController.swift */,
@@ -160,7 +161,6 @@
 				8A4F33F9247B3C7900F9826D /* ByIngredientController.swift */,
 				8A4F33ED247B26CE00F9826D /* ByNameController.swift */,
 				8AEF2E5B247932250041EAFA /* RecipeViewController.swift */,
-				8A4F33DD247B1F6200F9826D /* RecipeListScreen.swift */,
 				8AEA49DD247C809F009118D0 /* MyFoodViewController.swift */,
 				8AEF2E5D2479322D0041EAFA /* ChoresViewController.swift */,
 				8AEA49E3247C80AF009118D0 /* AddFoodViewController.swift */,
@@ -190,7 +190,7 @@
 				8A4F33E1247B1FC400F9826D /* Recipe.swift */,
 				8AEF2E5324778E310041EAFA /* FavoriteRecipe.swift */,
 				8A4F33E5247B211200F9826D /* Comment.swift */,
-				9C1D0AA3248C74A600FB428C /* GlobalVariable.swift */,
+				9C1D0AA3248C74A600FB428C /* GoogleUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 				8A0755D12464A05400EC96C3 /* WelcomeController.swift in Sources */,
 				8AEA49DC247C8090009118D0 /* CustomTableViewCell.swift in Sources */,
 				8A4F33EA247B212500F9826D /* RatingViewController.swift in Sources */,
-				9C1D0AA4248C74A600FB428C /* GlobalVariable.swift in Sources */,
+				9C1D0AA4248C74A600FB428C /* GoogleUser.swift in Sources */,
 				8A4F33EC247B213900F9826D /* ScrollViewController.swift in Sources */,
 				8AEA49DE247C809F009118D0 /* MyFoodViewController.swift in Sources */,
 				8AEF2E5024778E120041EAFA /* ProfilePageViewController.swift in Sources */,

@@ -104,20 +104,20 @@ class LoginController: UIViewController, GIDSignInDelegate{
         }
         
         // Perform any operations on signed in user here.
-        GlobalVariable.googleUsername = user.profile.name
-        GlobalVariable.googleEmail = user.profile.email
-        GlobalVariable.googleIconUrl = user.profile.imageURL(withDimension: 400)
+        GoogleUser.googleUsername = user.profile.name
+        GoogleUser.googleEmail = user.profile.email
+        GoogleUser.googleIconUrl = user.profile.imageURL(withDimension: 400)
     }
     
     func getGoogleUsername() -> String {
-        return GlobalVariable.googleUsername
+        return GoogleUser.googleUsername
     }
     
     func getGoogleEmail() -> String {
-        return GlobalVariable.googleEmail
+        return GoogleUser.googleEmail
     }
     
     func getGoogleIconUrl() -> URL? {
-        return GlobalVariable.googleIconUrl
+        return GoogleUser.googleIconUrl
     }
 }
