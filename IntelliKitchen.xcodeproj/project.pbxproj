@@ -144,7 +144,6 @@
 				8AC4E6C32459600400A1E91E /* SceneDelegate.swift */,
 				8AC4E6CA2459600600A1E91E /* Assets.xcassets */,
 				AEC873742480841900BA17CE /* GoogleService-Info.plist */,
-				8AC4E6CC2459600600A1E91E /* LaunchScreen.storyboard */,
 				8AC4E6CF2459600600A1E91E /* Info.plist */,
 			);
 			path = IntelliKitchen;
@@ -198,6 +197,7 @@
 		9C1D0AA2248B737100FB428C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8AC4E6CC2459600600A1E91E /* LaunchScreen.storyboard */,
 				8AC4E6C72459600400A1E91E /* Main.storyboard */,
 				8AEA49DB247C8090009118D0 /* CustomTableViewCell.swift */,
 				8AEF2E5F247932440041EAFA /* CollectionViewCell.swift */,

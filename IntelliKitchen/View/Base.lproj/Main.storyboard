@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="33K-NU-TPQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="33K-NU-TPQ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -114,9 +114,9 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TBp-ez-Kg5" userLabel="SignIn">
-                                <rect key="frame" x="0.0" y="509" width="420" height="219"/>
+                                <rect key="frame" x="50" y="566" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="SigninButton"/>
+                                <state key="normal" backgroundImage="SigninButton"/>
                                 <connections>
                                     <action selector="loginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EUT-YG-FLb"/>
                                 </connections>
@@ -2852,7 +2852,7 @@ Name</string>
         <image name="RecipeImage" width="133" height="98"/>
         <image name="Register" width="315" height="66"/>
         <image name="Search" width="128" height="128"/>
-        <image name="SigninButton" width="421" height="219"/>
+        <image name="SigninButton" width="315" height="60"/>
         <image name="Success" width="327" height="205"/>
         <image name="blue bar" width="88" height="2"/>
         <image name="chores" width="40.5" height="38.5"/>
